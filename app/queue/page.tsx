@@ -220,7 +220,7 @@ export default function QueuePage() {
         {/* Page title */}
         <div className="mb-8">
           <p style={labelStyle} className="mb-2">
-            studio queue
+            studio · 30 min sessions
           </p>
           <h1
             style={{
@@ -231,7 +231,7 @@ export default function QueuePage() {
               lineHeight: 1.1,
             }}
           >
-            who&apos;s on deck
+            who&apos;s in the room
           </h1>
         </div>
 
@@ -291,7 +291,7 @@ export default function QueuePage() {
                       color: isDark ? "rgba(255,255,255,0.32)" : "rgba(21,21,22,0.32)",
                     }}
                   >
-                    the stage is open.
+                    the studio&apos;s open. get in.
                   </p>
                 </div>
               )}
@@ -428,9 +428,9 @@ export default function QueuePage() {
                     lineHeight: 1.4,
                   }}
                 >
-                  no one&apos;s in the queue yet.
+                  nobody&apos;s claimed it yet.
                   <br />
-                  be the first.
+                  the studio&apos;s yours.
                 </p>
               </div>
             )}
@@ -489,7 +489,7 @@ export default function QueuePage() {
                     color: "#d0ff54",
                   }}
                 >
-                  you&apos;re in the queue.
+                  you&apos;re in.
                 </p>
                 <p
                   style={{
@@ -498,7 +498,7 @@ export default function QueuePage() {
                     color: isDark ? "rgba(255,255,255,0.48)" : "rgba(21,21,22,0.48)",
                   }}
                 >
-                  we&apos;ll call your name when it&apos;s your time.
+                  sit tight. your turn&apos;s coming.
                 </p>
               </div>
             ) : (
@@ -511,7 +511,7 @@ export default function QueuePage() {
                     marginBottom: "24px",
                   }}
                 >
-                  join the queue
+                  book your session
                 </p>
 
                 <div className="flex flex-col gap-3">
@@ -569,7 +569,7 @@ export default function QueuePage() {
                       fontFamily: "var(--font-triplex-1mm)",
                     }}
                   >
-                    {joinSubmitting ? "joining..." : "get in line"}
+                    {joinSubmitting ? "booking..." : "i want in"}
                   </button>
 
                   <button

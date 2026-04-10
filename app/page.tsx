@@ -44,7 +44,7 @@ export default function Home() {
           className="mb-3 text-[11px] font-semibold uppercase tracking-[0.35em]"
           style={{ color: isDark ? "rgba(255,255,255,0.48)" : "rgba(21,21,22,0.48)" }}
         >
-          Riffle presents
+          riffle · bangalore · april 11
         </p>
 
         {/* Event title — large display */}
@@ -70,13 +70,15 @@ export default function Home() {
             fontFamily: "var(--font-triplex-2mm)",
             fontSize: "clamp(16px, 3vw, 22px)",
             fontWeight: 400,
-            lineHeight: 1.35,
-            color: isDark ? "rgba(255,255,255,0.48)" : "rgba(21,21,22,0.48)",
-            maxWidth: "480px",
+            lineHeight: 1.45,
+            color: isDark ? "rgba(255,255,255,0.56)" : "rgba(21,21,22,0.56)",
+            maxWidth: "420px",
             marginBottom: "clamp(24px, 5vw, 48px)",
           }}
         >
-          a day of raw music. bring what you&apos;ve got.
+          no polish. no second takes.
+          <br />
+          just what you made.
         </p>
 
         {/* Event details */}
@@ -87,11 +89,10 @@ export default function Home() {
             fontSize: "13px",
             fontWeight: 400,
             letterSpacing: "0.08em",
-            color: isDark ? "rgba(255,255,255,0.40)" : "rgba(21,21,22,0.40)",
+            color: isDark ? "rgba(255,255,255,0.32)" : "rgba(21,21,22,0.32)",
           }}
         >
-          <span>April 11, 2026 &nbsp;·&nbsp; 11:30 AM IST</span>
-          <span>The Draft by Riffle, Bangalore</span>
+          <span>11:30 AM &nbsp;·&nbsp; The Draft by Riffle</span>
         </div>
 
         {/* CTAs */}
@@ -106,7 +107,7 @@ export default function Home() {
               fontFamily: "var(--font-triplex-1mm)",
             }}
           >
-            studio queue
+            book studio time
           </Link>
           <Link
             href="/teams"

@@ -127,7 +127,7 @@ export default function JoinPage() {
               marginBottom: "16px",
             }}
           >
-            you&apos;re in.
+            welcome to first take
           </p>
           <h1
             style={{
@@ -139,9 +139,7 @@ export default function JoinPage() {
               marginBottom: "24px",
             }}
           >
-            welcome to
-            <br />
-            first take.
+            glad you&apos;re here.
           </h1>
           <p
             style={{
@@ -153,7 +151,9 @@ export default function JoinPage() {
               maxWidth: "400px",
             }}
           >
-            bring the rawest thing you&apos;ve got. the first take is always the most honest.
+            the first take is always the most honest.
+            <br />
+            bring what you&apos;ve got — all of it.
           </p>
           <div className="flex gap-3 flex-wrap">
             <Link
@@ -230,7 +230,7 @@ export default function JoinPage() {
               marginBottom: "12px",
             }}
           >
-            sign up
+            you made it.
           </h1>
           <p
             style={{
@@ -240,7 +240,7 @@ export default function JoinPage() {
               lineHeight: 1.4,
             }}
           >
-            let everyone know you&apos;re here.
+            tell us who you are so everyone knows you&apos;re in the room.
           </p>
         </div>
 

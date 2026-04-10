@@ -92,7 +92,7 @@ export default function TeamsPage() {
               lineHeight: 1.1,
             }}
           >
-            the crews
+            who&apos;s here
           </h1>
         </div>
 
@@ -112,7 +112,7 @@ export default function TeamsPage() {
             >
               no teams yet.
               <br />
-              first take is a solo affair today.
+              everyone&apos;s running solo.
             </p>
           </div>
         ) : (
