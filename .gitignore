@@ -40,7 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# brand context — exclude build artifacts
-brand\ &\ product\ context/*/node_modules/
-brand\ &\ product\ context/*/.next/
-brand\ &\ product\ context/*/.git/
+# brand context — local reference only, never commit
+brand\ &\ product\ context/
