@@ -10,9 +10,17 @@ import LogoSmall from "./components/logo-small/Logo.small";
 export default function Home() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [signedUpName, setSignedUpName] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    try {
+      const stored = localStorage.getItem("firsttake_user");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.display_name) setSignedUpName(parsed.display_name);
+      }
+    } catch {}
   }, []);
 
   const isDark = mounted && resolvedTheme === "dark";
@@ -95,43 +103,84 @@ export default function Home() {
           <span>11:30 AM &nbsp;·&nbsp; The Draft by Riffle</span>
         </div>
 
-        {/* CTAs */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-          <Link
-            href="/queue"
-            data-cursor-dark
-            className="inline-flex items-center justify-center rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] shadow-button transition hover:translate-y-0.5 active:translate-y-0.5"
-            style={{
-              backgroundColor: "#d0ff54",
-              color: "#000000",
-              fontFamily: "var(--font-triplex-1mm)",
-            }}
-          >
-            book studio time
-          </Link>
-          <Link
-            href="/teams"
-            className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] transition hover:translate-y-0.5 active:translate-y-0.5"
-            style={{
-              borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(21,21,22,0.16)",
-              color: isDark ? "rgba(255,255,255,0.64)" : "rgba(21,21,22,0.64)",
-              fontFamily: "var(--font-triplex-1mm)",
-            }}
-          >
-            see teams
-          </Link>
-          <Link
-            href="/join"
-            className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] transition hover:translate-y-0.5 active:translate-y-0.5"
-            style={{
-              borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(21,21,22,0.16)",
-              color: isDark ? "rgba(255,255,255,0.64)" : "rgba(21,21,22,0.64)",
-              fontFamily: "var(--font-triplex-1mm)",
-            }}
-          >
-            sign up
-          </Link>
-        </div>
+        {/* CTAs — guided flow: sign up first, then book studio time */}
+        {signedUpName ? (
+          <>
+            <p
+              className="mb-4"
+              style={{
+                fontFamily: "var(--font-triplex-1mm)",
+                fontSize: "12px",
+                letterSpacing: "0.2em",
+                color: isDark ? "rgba(255,255,255,0.40)" : "rgba(21,21,22,0.40)",
+              }}
+            >
+              welcome back, {signedUpName}.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+              <Link
+                href="/queue"
+                data-cursor-dark
+                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] shadow-button transition hover:translate-y-0.5 active:translate-y-0.5"
+                style={{
+                  backgroundColor: "#d0ff54",
+                  color: "#000000",
+                  fontFamily: "var(--font-triplex-1mm)",
+                }}
+              >
+                book studio time
+              </Link>
+              <Link
+                href="/teams"
+                className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] transition hover:translate-y-0.5 active:translate-y-0.5"
+                style={{
+                  borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(21,21,22,0.16)",
+                  color: isDark ? "rgba(255,255,255,0.64)" : "rgba(21,21,22,0.64)",
+                  fontFamily: "var(--font-triplex-1mm)",
+                }}
+              >
+                see teams
+              </Link>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+            <Link
+              href="/join"
+              data-cursor-dark
+              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] shadow-button transition hover:translate-y-0.5 active:translate-y-0.5"
+              style={{
+                backgroundColor: "#d0ff54",
+                color: "#000000",
+                fontFamily: "var(--font-triplex-1mm)",
+              }}
+            >
+              sign up
+            </Link>
+            <Link
+              href="/queue"
+              className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] transition hover:translate-y-0.5 active:translate-y-0.5"
+              style={{
+                borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(21,21,22,0.16)",
+                color: isDark ? "rgba(255,255,255,0.64)" : "rgba(21,21,22,0.64)",
+                fontFamily: "var(--font-triplex-1mm)",
+              }}
+            >
+              book studio time
+            </Link>
+            <Link
+              href="/teams"
+              className="inline-flex items-center justify-center rounded-full border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] transition hover:translate-y-0.5 active:translate-y-0.5"
+              style={{
+                borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(21,21,22,0.16)",
+                color: isDark ? "rgba(255,255,255,0.64)" : "rgba(21,21,22,0.64)",
+                fontFamily: "var(--font-triplex-1mm)",
+              }}
+            >
+              see teams
+            </Link>
+          </div>
+        )}
       </main>
 
       {/* Subtle bottom rule */}

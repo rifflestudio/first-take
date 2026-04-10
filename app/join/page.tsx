@@ -9,6 +9,7 @@ import CustomCursor from "../components/CustomCursor";
 import ThemeToggle from "../components/ThemeToggle";
 import LogoSmall from "../components/logo-small/Logo.small";
 import type { Team } from "@/lib/supabase/client";
+import BottomNav from "../components/BottomNav";
 
 const ROLES = [
   { value: "rapper", label: "rapper" },
@@ -77,6 +78,17 @@ export default function JoinPage() {
       return;
     }
 
+    // Store user info so the queue page can pre-fill their name
+    try {
+      localStorage.setItem(
+        "firsttake_user",
+        JSON.stringify({
+          display_name: displayName.trim(),
+          user_id: data.user?.id ?? null,
+        })
+      );
+    } catch {}
+
     setSuccess(true);
     setSubmitting(false);
   };
@@ -116,7 +128,7 @@ export default function JoinPage() {
             <LogoSmall className="h-7 w-auto" />
           </Link>
         </header>
-        <main className="flex flex-1 flex-col items-start justify-center px-6 pb-24 md:px-12">
+        <main className="flex flex-1 flex-col items-start justify-center px-6 pb-32 md:pb-24 md:px-12">
           <p
             style={{
               fontFamily: "var(--font-triplex-1mm)",
@@ -157,7 +169,7 @@ export default function JoinPage() {
           </p>
           <div className="flex gap-3 flex-wrap">
             <Link
-              href="/queue"
+              href="/queue?book=1"
               data-cursor-dark
               className="inline-flex items-center justify-center rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] shadow-button transition hover:translate-y-0.5 active:translate-y-0.5"
               style={{
@@ -166,7 +178,7 @@ export default function JoinPage() {
                 fontFamily: "var(--font-triplex-1mm)",
               }}
             >
-              join the queue
+              book studio time
             </Link>
             <Link
               href="/"
@@ -181,6 +193,7 @@ export default function JoinPage() {
             </Link>
           </div>
         </main>
+        <BottomNav />
       </div>
     );
   }
@@ -204,7 +217,7 @@ export default function JoinPage() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 px-6 pb-24 md:px-12">
+      <main className="relative z-10 flex-1 px-6 pb-32 md:pb-24 md:px-12">
         {/* Page title */}
         <div className="mb-8 max-w-lg">
           <p
@@ -359,6 +372,7 @@ export default function JoinPage() {
           </button>
         </form>
       </main>
+      <BottomNav />
     </div>
   );
 }

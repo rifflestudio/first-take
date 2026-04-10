@@ -9,6 +9,7 @@ import { getSupabaseClient, type QueueEntry } from "@/lib/supabase/client";
 import CustomCursor from "../components/CustomCursor";
 import ThemeToggle from "../components/ThemeToggle";
 import LogoSmall from "../components/logo-small/Logo.small";
+import BottomNav from "../components/BottomNav";
 
 // Slot duration = 30 minutes
 const SLOT_DURATION_MS = 30 * 60 * 1000;
@@ -89,11 +90,45 @@ export default function QueuePage() {
   const [joinSubmitting, setJoinSubmitting] = useState(false);
   const [joinError, setJoinError] = useState("");
   const [joinSuccess, setJoinSuccess] = useState(false);
+  const [myEntryId, setMyEntryId] = useState<string | null>(null);
+  const [leaving, setLeaving] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const autoOpened = useRef(false);
 
   useEffect(() => {
     setMounted(true);
+
+    // Restore user name from sign-up flow
+    try {
+      const stored = localStorage.getItem("firsttake_user");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.display_name) setJoinName(parsed.display_name);
+      }
+    } catch {}
+
+    // Restore queue entry ID
+    try {
+      const entryId = localStorage.getItem("firsttake_queue_entry");
+      if (entryId) setMyEntryId(entryId);
+    } catch {}
   }, []);
+
+  // Auto-open drawer when arriving from sign-up (?book=1)
+  useEffect(() => {
+    if (mounted && !loading && !autoOpened.current) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("book") === "1") {
+        autoOpened.current = true;
+        // Only open if user isn't already in the queue
+        if (!myEntryId) {
+          setShowJoinDrawer(true);
+        }
+        // Clean up URL
+        window.history.replaceState({}, "", "/queue");
+      }
+    }
+  }, [mounted, loading, myEntryId]);
 
   const isDark = mounted && resolvedTheme === "dark";
 
@@ -110,6 +145,17 @@ export default function QueuePage() {
   useEffect(() => {
     fetchQueue();
   }, [fetchQueue]);
+
+  // Sync myEntryId against live queue — clear if entry no longer waiting/active
+  useEffect(() => {
+    if (myEntryId && queue.length > 0) {
+      const myEntry = queue.find((e) => e.id === myEntryId);
+      if (!myEntry || myEntry.status === "done" || myEntry.status === "no_show") {
+        setMyEntryId(null);
+        try { localStorage.removeItem("firsttake_queue_entry"); } catch {}
+      }
+    }
+  }, [myEntryId, queue]);
 
   // Realtime subscription
   useEffect(() => {
@@ -161,13 +207,23 @@ export default function QueuePage() {
     const data = await res.json();
 
     if (!res.ok) {
+      // If already in queue, store the existing entry ID
+      if (res.status === 409 && data.existing_id) {
+        setMyEntryId(data.existing_id);
+        try { localStorage.setItem("firsttake_queue_entry", data.existing_id); } catch {}
+      }
       setJoinError(data.error || "something went wrong");
       setJoinSubmitting(false);
       return;
     }
 
+    // Store queue entry ID for leave-queue and status tracking
+    if (data.entry?.id) {
+      setMyEntryId(data.entry.id);
+      try { localStorage.setItem("firsttake_queue_entry", data.entry.id); } catch {}
+    }
+
     setJoinSuccess(true);
-    setJoinName("");
     setJoinSubmitting(false);
     fetchQueue();
 
@@ -175,6 +231,20 @@ export default function QueuePage() {
       setJoinSuccess(false);
       setShowJoinDrawer(false);
     }, 2500);
+  };
+
+  const handleLeave = async () => {
+    if (!myEntryId) return;
+    setLeaving(true);
+
+    const res = await fetch(`/api/queue?id=${myEntryId}`, { method: "DELETE" });
+
+    if (res.ok) {
+      setMyEntryId(null);
+      try { localStorage.removeItem("firsttake_queue_entry"); } catch {}
+      fetchQueue();
+    }
+    setLeaving(false);
   };
 
   const activeEntry = queue.find((e) => e.status === "active");
@@ -216,7 +286,7 @@ export default function QueuePage() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 px-6 pb-32 md:px-12">
+      <main className="relative z-10 flex-1 px-6 pb-44 md:pb-32 md:px-12">
         {/* Page title */}
         <div className="mb-8">
           <p style={labelStyle} className="mb-2">
@@ -438,25 +508,76 @@ export default function QueuePage() {
         )}
       </main>
 
-      {/* Join FAB */}
+      {/* Bottom action — FAB or queue status bar */}
       {!showJoinDrawer && (
-        <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2">
-          <button
-            onClick={() => {
-              setShowJoinDrawer(true);
-              setJoinSuccess(false);
-              setJoinError("");
-            }}
-            data-cursor-dark
-            className="inline-flex items-center justify-center rounded-full px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.35em] shadow-button transition hover:translate-y-0.5 active:translate-y-0.5 whitespace-nowrap"
-            style={{
-              backgroundColor: "#d0ff54",
-              color: "#000000",
-              fontFamily: "var(--font-triplex-1mm)",
-            }}
-          >
-            join queue
-          </button>
+        <div className="fixed bottom-16 md:bottom-8 left-1/2 z-50 -translate-x-1/2">
+          {myEntryId ? (
+            (() => {
+              const myEntry = queue.find((e) => e.id === myEntryId);
+              if (!myEntry) return null;
+              const isActive = myEntry.status === "active";
+              const waitingAhead = isActive
+                ? 0
+                : waitingEntries.findIndex((e) => e.id === myEntryId);
+              return (
+                <div
+                  className="flex items-center gap-4 rounded-full px-6 py-3 shadow-button"
+                  style={{
+                    backgroundColor: isDark ? "var(--surface-panel)" : "var(--surface-card)",
+                    border: `1px solid ${isActive ? "#d0ff54" : isDark ? "rgba(255,255,255,0.12)" : "rgba(21,21,22,0.12)"}`,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-triplex-1mm)",
+                      fontSize: "11px",
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: isActive ? "#d0ff54" : isDark ? "rgba(255,255,255,0.64)" : "rgba(21,21,22,0.64)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {isActive
+                      ? "you're up!"
+                      : waitingAhead === 0
+                        ? "you're next"
+                        : `#${myEntry.position} in line`}
+                  </span>
+                  {!isActive && (
+                    <button
+                      onClick={handleLeave}
+                      disabled={leaving}
+                      className="text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80 disabled:opacity-50"
+                      style={{
+                        fontFamily: "var(--font-triplex-1mm)",
+                        color: isDark ? "rgba(255,255,255,0.32)" : "rgba(21,21,22,0.32)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {leaving ? "leaving..." : "leave"}
+                    </button>
+                  )}
+                </div>
+              );
+            })()
+          ) : (
+            <button
+              onClick={() => {
+                setShowJoinDrawer(true);
+                setJoinSuccess(false);
+                setJoinError("");
+              }}
+              data-cursor-dark
+              className="inline-flex items-center justify-center rounded-full px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.35em] shadow-button transition hover:translate-y-0.5 active:translate-y-0.5 whitespace-nowrap"
+              style={{
+                backgroundColor: "#d0ff54",
+                color: "#000000",
+                fontFamily: "var(--font-triplex-1mm)",
+              }}
+            >
+              join queue
+            </button>
+          )}
         </div>
       )}
 
@@ -588,6 +709,8 @@ export default function QueuePage() {
           </div>
         </div>
       )}
+
+      <BottomNav />
     </div>
   );
 }
