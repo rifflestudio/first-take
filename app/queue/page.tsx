@@ -146,11 +146,13 @@ export default function QueuePage() {
     fetchQueue();
   }, [fetchQueue]);
 
-  // Sync myEntryId against live queue — clear if entry no longer waiting/active
+  // Sync myEntryId against live queue — clear only when entry is confirmed done/no_show.
+  // Don't clear when the entry is simply missing (race condition after joining,
+  // or admin deleted it) — that would resurface the "join queue" FAB.
   useEffect(() => {
     if (myEntryId && queue.length > 0) {
       const myEntry = queue.find((e) => e.id === myEntryId);
-      if (!myEntry || myEntry.status === "done" || myEntry.status === "no_show") {
+      if (myEntry && (myEntry.status === "done" || myEntry.status === "no_show")) {
         setMyEntryId(null);
         try { localStorage.removeItem("firsttake_queue_entry"); } catch {}
       }
