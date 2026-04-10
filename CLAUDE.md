@@ -148,6 +148,63 @@ The studio web app (`san-francisco`) has a full component library in `components
 - `GlassPanel` — glassmorphism floating panels (`bg-glass-bg border border-glass-border backdrop-blur-xl`)
 - `Surface` — base surface with elevation levels
 
+## Brand Character (Non-Negotiables)
+
+The brand is a **creative thesis rendered as an interface**. Its power comes from coherence between copy, typography, palette restraint, physical music metaphors, and atmospheric interaction.
+
+### What the brand feels like
+intimate · anti-corporate · artist-centered · slightly confrontational · emotionally literate · technologically skeptical · deliberately unpolished in attitude, but polished in execution
+
+### What it is NOT
+- Not a SaaS dashboard
+- Not a startup landing page
+- Not productivity software
+- Not glassy futurism or neon cyberpunk
+- Not generic AI/gradient-heavy design
+
+### What would immediately break the style
+- Multiple bright brand colors in the main shell
+- Replacing Milling Triplex with a generic sans (Inter, etc.)
+- Polished corporate marketing copy
+- Dense cards, feature lists, trust strips, comparison tables
+- Slick AI/SaaS gradients as main visual language
+- Over-animated experience with generic motion presets
+
+### Design DNA
+> "A dark-first, editorial-industrial, music-culture aesthetic that uses custom mechanical typography, restrained neutrals, a single acid-lime accent, tactile audiovisual interactions, and manifesto-like copy to position music creation as a return to instinct, play, and shared human expression."
+
+### Voice rules
+- **Lowercase by default** — creates intimacy, removes corporate polish
+- **Short declarative sentences** — rhythmic, almost lyrical
+- **No hype vocabulary** — no "revolutionary", "AI-powered", "best-in-class"
+- **Sparse CTA language** — blunt and utilitarian, not salesy ("go to app", "log in")
+- **Historical/primordial framing** — music as innate human expression
+- **Moral contrast** — instinct vs systems, expression vs obedience, freedom vs conformity
+
+### Opacity hierarchy (for text and UI)
+- `0.80` — strong emphasis (active/primary)
+- `0.64` — labels, section headings
+- `0.48` — utility links, footer
+- `0.35` — hover state for inactive
+- `0.20` — inactive/background elements
+
+### Motion rules
+- Ambient and object-based, not decorative
+- No dramatic page transitions or scroll hijacking
+- Preferred patterns: custom cursor trail, scroll-reactive highlighting, slow physical object spin
+- Buttons: `hover:translate-y-0.5 active:translate-y-0.5` only — no bounces or elastics
+
+### Typography rules
+- Use **only Milling Triplex** — never fallback to Inter or system sans for visible UI
+- `1mm` = base/labels, `2mm` = body/headings, `3mm`+ = display/countdown
+- Treat font weights as a material system — heavier = louder physical impression
+
+### Layout rules
+- Generous margins, strong max-width constraints, few visual containers
+- Avoid card clutter and repeated feature rows
+- Compositions should read like editorial pages or posters, not dashboards
+- Let content breathe — sparse is intentional
+
 ## Coding Rules
 
 - Keep tone aligned with brand voice: artistic, human, anti-sterile
