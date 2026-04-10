@@ -9,6 +9,7 @@ import CustomCursor from "../components/CustomCursor";
 import ThemeToggle from "../components/ThemeToggle";
 import LogoSmall from "../components/logo-small/Logo.small";
 import type { User } from "@/lib/supabase/client";
+import BottomNav from "../components/BottomNav";
 
 interface TeamWithMembers {
   id: string;
@@ -142,7 +143,7 @@ export default function TeamsPage() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 px-6 pb-24 md:px-12">
+      <main className="relative z-10 flex-1 px-6 pb-32 md:pb-24 md:px-12">
         {/* Page title */}
         <div className="mb-8">
           <p style={labelStyle} className="mb-2">
@@ -218,6 +219,7 @@ export default function TeamsPage() {
           </div>
         )}
       </main>
+      <BottomNav />
     </div>
   );
 }

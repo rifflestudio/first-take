@@ -25,6 +25,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "display_name is required" }, { status: 400 });
   }
 
+  // Check for duplicate — same name already waiting or active
+  const { data: existing } = await getSupabaseAdmin()
+    .from("queue")
+    .select("id")
+    .ilike("display_name", display_name.trim())
+    .in("status", ["waiting", "active"])
+    .maybeSingle();
+
+  if (existing) {
+    return NextResponse.json(
+      { error: "you're already in the queue", existing_id: existing.id },
+      { status: 409 }
+    );
+  }
+
   // Find the next position number (max active/waiting position + 1)
   const { data: maxRow } = await getSupabaseAdmin()
     .from("queue")
