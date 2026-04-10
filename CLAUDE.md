@@ -4,7 +4,11 @@
 
 **First Take** is a Riffle IP / live event concept. It's a music event experience where the idea is to capture music in its rawest, most instinctive form — the first take is always the most honest one. The name captures Riffle's core philosophy: human expression before technical obedience, play before perfection.
 
-This mini app is built for the First Take event in Bangalore (April 2026). It's a companion experience for attendees.
+This mini app is built for the First Take event in Bangalore (April 11, 2026, 11:30 AM IST). It's a day-of companion experience for ~30 attendees.
+
+**Event format:** Collaborative music-creation jam session at "The Draft by Riffle". Attendees — artists, rappers, producers, DJs, singers — bring their own gear and get airtime to share what they've made: "the good, the bad, and the ugly." It's about raw, instinctive creation. No polish required.
+
+**App purpose:** Serve the in-room, live experience. Mobile-first. Used on the day by people making music together.
 
 ## Stack
 
