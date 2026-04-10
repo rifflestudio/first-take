@@ -1,0 +1,354 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Milling Triplex 1mm";
+  src: url("/fonts/205TF_8920/205TF_Milling_TriplexPack1mm/Web/205TF-Milling-Triplex1mm.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Milling Triplex 2mm";
+  src: url("/fonts/205TF_8920/205TF_Milling_TriplexPack2mm+3mm/Web/205TF-Milling-Triplex2mm.woff2")
+    format("woff2");
+  font-weight: 100 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Milling Triplex 3mm";
+  src: url("/fonts/205TF_8920/205TF_Milling_TriplexPack2mm+3mm/Web/205TF-Milling-Triplex3mm.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Milling Triplex 5mm";
+  src: url("/fonts/205TF_8920/205TF_Milling_TriplexPack3,5mm+4,5mm/Web/205TF-Milling-Triplex4,5mm.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-sans: "Milling Triplex 1mm", system-ui, sans-serif;
+  --font-triplex-1mm: "Milling Triplex 1mm", system-ui, sans-serif;
+  --font-triplex-2mm: "Milling Triplex 2mm", system-ui, sans-serif;
+  --font-triplex-3mm: "Milling Triplex 3mm", system-ui, sans-serif;
+  --font-triplex-5mm: "Milling Triplex 5mm", system-ui, sans-serif;
+
+  --surface: #f4f3f1;
+  --surface-muted: #eceae4;
+  --surface-panel: #fffdfa;
+  --surface-card: #ffffff;
+  --text-primary: #131316;
+  --text-muted: #6f6f78;
+  --brand: #d0ff54;
+  --accent-highlight: var(--brand);
+  --accent-deep: #0b0b0b;
+  --shadow-card: 0 35px 90px rgba(15, 15, 15, 0.08);
+  --shadow-button: 0 20px 50px rgba(15, 15, 15, 0.16);
+  --shadow-record: 0 40px 120px rgba(0, 0, 0, 0.18);
+  --border-soft: rgba(13, 13, 13, 0.08);
+  --border-strong: rgba(13, 13, 13, 0.18);
+  
+  /* Custom cursor colors */
+  --cursor-default: #000000;
+  --cursor-clickable: var(--brand);
+}
+
+.dark {
+  --surface: #151516;
+  --surface-muted: #1a1a1c;
+  --surface-panel: #1f1f22;
+  --surface-card: #252528;
+  --text-primary: #f3f3f3;
+  --text-muted: #9b9dac;
+  --brand: #d0ff54;
+  --accent-highlight: var(--brand);
+  --accent-deep: #0b0b0b;
+  --shadow-card: 0 40px 110px rgba(0, 0, 0, 0.75);
+  --shadow-button: 0 25px 60px rgba(0, 0, 0, 0.65);
+  --shadow-record: 0 60px 160px rgba(0, 0, 0, 0.8);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  
+  /* Custom cursor colors - inverted in dark mode */
+  --cursor-default: #ffffff;
+  --cursor-clickable: var(--brand);
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--surface);
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Custom cursor only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  body,
+  body * {
+    cursor: none !important;
+  }
+}
+
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Text styles */
+.text-body {
+  @apply text-base sm:text-lg leading-relaxed;
+}
+
+.text-body2 {
+  @apply text-sm sm:text-base leading-relaxed;
+}
+
+.text-body3 {
+  @apply text-xs sm:text-sm leading-relaxed;
+}
+
+/* Text colors */
+.text-muted {
+  @apply text-gray-600;
+}
+
+.text-muted-light {
+  @apply text-gray-300;
+}
+
+/* Custom cursor */
+.cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  background-color: var(--cursor-default);
+  width: 12px;
+  height: 12px;
+  border-radius: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cursor-trail.cursor-clickable {
+  background-color: var(--cursor-clickable);
+}
+
+.cursor-main {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  background-color: var(--cursor-default);
+  width: 16px;
+  height: 16px;
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-main.cursor-clickable {
+  background-color: var(--cursor-clickable);
+}
+
+/* Logo hover effect */
+.logo-glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-glitch .logo-image {
+}
+
+.logo-glitch .logo-pixel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.logo-glitch:hover .logo-image {
+  opacity: 0;
+}
+
+.logo-glitch:hover .logo-pixel {
+  opacity: 1;
+}
+
+/* Countdown timer font hover effect */
+.countdown-digit {
+  font-family: var(--font-triplex-3mm);
+}
+
+.countdown-digit:hover {
+  font-family: var(--font-triplex-5mm);
+}
+
+/* Countdown timer responsive sizing */
+.countdown-timer {
+  font-size: 28vw;
+}
+
+@media (min-width: 480px) {
+  .countdown-timer {
+    font-size: 24vw;
+  }
+}
+
+@media (min-width: 640px) {
+  .countdown-timer {
+    font-size: 110px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .countdown-timer {
+    font-size: 150px;
+  }
+}
+
+@layer utilities {
+  .bg-surface {
+    background-color: var(--surface);
+  }
+
+  .bg-surface-soft {
+    background-color: color-mix(in srgb, var(--surface) 92%, transparent);
+  }
+
+  .bg-panel {
+    background-color: var(--surface-panel);
+  }
+
+  .bg-card {
+    background-color: var(--surface-card);
+  }
+
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-button {
+    box-shadow: var(--shadow-button);
+  }
+
+  .shadow-record {
+    box-shadow: var(--shadow-record);
+  }
+
+  .bg-brand {
+    background-color: var(--brand);
+  }
+
+  .text-brand {
+    color: var(--brand);
+  }
+
+  .bg-accent {
+    background-color: var(--accent-highlight);
+  }
+
+  .bg-deep {
+    background-color: var(--accent-deep);
+  }
+
+  .border-soft {
+    border-color: var(--border-soft);
+  }
+
+  .border-strong {
+    border-color: var(--border-strong);
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--text-primary) 30%, transparent);
+  }
+}
+
+/* Vinyl spinning animation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 20s linear infinite;
+}
+
+/* Footer link hover styles */
+.footer-link {
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: rgba(21, 21, 22, 0.80) !important;
+}
+
+:root.dark .footer-link:hover,
+.dark .footer-link:hover {
+  color: rgba(255, 255, 255, 0.80) !important;
+}
+
+
+/* Waitlist input placeholder colors */
+.waitlist-input::placeholder {
+  color: rgba(21, 21, 22, 0.32);
+}
+
+.dark .waitlist-input::placeholder {
+  color: rgba(255, 255, 255, 0.32);
+}

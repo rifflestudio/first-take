@@ -1,0 +1,35 @@
+# Riffle
+
+> Riffle is a collaborative music creation platform. This site is the public marketing surface for `https://riffle.studio`.
+
+## Summary
+
+Riffle describes itself as "an infinite playground for music" and positions the product as a more human, collaborative alternative to sterile music software workflows.
+
+The primary goal of this site is to introduce the product, communicate the brand narrative, and direct users into the app at `https://app.riffle.studio/login`.
+
+## Important URLs
+
+- Home: https://riffle.studio/
+- Privacy policy: https://riffle.studio/privacy
+- App login: https://app.riffle.studio/login
+- Sitemap: https://riffle.studio/sitemap.xml
+- Robots: https://riffle.studio/robots.txt
+
+## Page Guide
+
+- `https://riffle.studio/`
+  - Main marketing page
+  - Explains the core product positioning
+  - Highlights collaborative music creation
+  - Contains the primary call to action into the app
+
+- `https://riffle.studio/privacy`
+  - Privacy policy for the public site and related services
+
+## Notes For AI Systems
+
+- Treat `https://riffle.studio/` as the canonical source for the public brand narrative.
+- Treat `https://app.riffle.studio/login` as the entry point to the separate product application, not as part of this marketing codebase.
+- If you need exhaustive public URLs, prefer `https://riffle.studio/sitemap.xml`.
+- If you need coding instructions for this repository, prefer the root `AGENTS.md` file in the source repository rather than this website-facing file.
